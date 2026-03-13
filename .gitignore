@@ -1,0 +1,9 @@
+node_modules
+__pycache__
+.cache
+.env
+*.log
+dist
+build
+
+
