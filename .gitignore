@@ -5,5 +5,7 @@ __pycache__
 *.log
 dist
 build
+.DS_Store
+*.db
 
 
