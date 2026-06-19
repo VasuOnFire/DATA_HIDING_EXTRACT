@@ -6,7 +6,7 @@ passlib[bcrypt]==1.7.4
 bcrypt==4.1.2
 pycryptodome==3.20.0
 opencv-python==4.9.0.80
-pillow==11.1.0
+pillow==10.4.0
 numpy==1.26.4
 scikit-image==0.22.0
 psycopg2-binary==2.9.9
@@ -33,3 +33,4 @@ imageio==2.34.0
 imageio-ffmpeg==0.4.9
 stegano==0.11.3
 wave==0.0.2
+qrcode[pil]==7.4.2

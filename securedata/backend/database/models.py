@@ -124,6 +124,48 @@ class StegoMedia(Base):
     ssim = Column(Float, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+class QRCodeHistory(Base):
+    __tablename__ = "qr_code_history"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)  # Nullable for non-logged in users
+    qr_filename = Column(String(255), nullable=False)
+    encrypted_payload = Column(Text, nullable=False)  # Stored encrypted data
+    iv = Column(String(255), nullable=False)  # Initialization vector
+    salt = Column(String(255), nullable=False)  # Salt for key derivation
+    timestamp = Column(DateTime, default=datetime.utcnow)
+    scan_count = Column(Integer, default=0)
+    is_active = Column(Boolean, default=True)
+
+class Folder(Base):
+    __tablename__ = "folders"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    folder_name = Column(String(255), nullable=False)
+    is_locked = Column(Boolean, default=False)
+    folder_password = Column(String(255), nullable=True)  # Bcrypt hashed password
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    user = relationship("User")
+    files = relationship("SecureFile", back_populates="folder", cascade="all, delete-orphan")
+
+class SecureFile(Base):
+    __tablename__ = "secure_files"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    folder_id = Column(Integer, ForeignKey("folders.id"), nullable=False)
+    file_name = Column(String(255), nullable=False)
+    file_type = Column(String(50), nullable=False)  # image, audio, video, pdf, document
+    encrypted_path = Column(String(500), nullable=False)  # Path to encrypted file
+    file_size = Column(Integer, nullable=True)  # File size in bytes
+    encryption_key = Column(String(255), nullable=True)  # Encryption key for decryption
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    user = relationship("User")
+    folder = relationship("Folder", back_populates="files")
+
 # Database engine and session
 def get_engine(database_url: str = None):
     if database_url is None:

@@ -189,7 +189,7 @@ const Settings = () => {
                 </ListItemIcon>
                 <ListItemText
                   primary="About SECUREDATA"
-                  secondary="Version 1.0.0"
+                  secondary="Version 2.0.0"
                 />
               </ListItemButton>
             </List>
@@ -245,8 +245,8 @@ const Settings = () => {
             <li>JWT + OTP Authentication</li>
           </Typography>
           <Box mt={2}>
-            <Chip label="Version 1.0.0" size="small" />
-            <Chip label="Build 2024" size="small" sx={{ ml: 1 }} />
+            <Chip label="Version 2.0.0" size="small" />
+            <Chip label="Build 2026" size="small" sx={{ ml: 1 }} />
           </Box>
         </DialogContent>
         <DialogActions>

@@ -16,6 +16,10 @@ import LoginHistory from './pages/LoginHistory';
 import Settings from './pages/Settings';
 import Connections from './pages/Connections';
 import Performance from './pages/Performance';
+import HideQRData from './pages/HideQRData';
+import ExtractQRData from './pages/ExtractQRData';
+import QRHistory from './pages/QRHistory';
+import SecureStorage from './pages/SecureStorage';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, token } = useAuthStore();
@@ -118,12 +122,32 @@ function App() {
             <Connections />
           </ProtectedRoute>
         } />
+        <Route path="/secure-storage" element={
+          <ProtectedRoute>
+            <SecureStorage />
+          </ProtectedRoute>
+        } />
         <Route path="/performance" element={
           <ProtectedRoute>
             <Performance />
           </ProtectedRoute>
         } />
-        
+        <Route path="/hide-qr" element={
+          <ProtectedRoute>
+            <HideQRData />
+          </ProtectedRoute>
+        } />
+        <Route path="/extract-qr" element={
+          <ProtectedRoute>
+            <ExtractQRData />
+          </ProtectedRoute>
+        } />
+        <Route path="/qr-history" element={
+          <ProtectedRoute>
+            <QRHistory />
+          </ProtectedRoute>
+        } />
+
         {/* Default Redirect */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

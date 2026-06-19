@@ -142,18 +142,7 @@ const Dashboard = () => {
         }}
       >
         <Toolbar />
-        
-        {/* TEST BUTTON - Remove after debugging */}
-        <button 
-          onClick={() => {
-            console.log('TEST BUTTON CLICKED');
-            navigate('/messaging');
-          }}
-          style={{ padding: '10px 20px', marginBottom: '20px', background: 'red', color: 'white' }}
-        >
-          TEST NAVIGATE TO MESSAGING
-        </button>
-        
+
         <Container maxWidth="lg">
           <Typography variant="h4" gutterBottom fontWeight="bold">
             Welcome back, {user?.full_name?.split(' ')[0] || 'User'}!

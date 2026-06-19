@@ -50,7 +50,14 @@ const Login = () => {
 
       if (data.requires_otp) {
         setPendingOTP(data.user_id);
-        navigate('/verify-otp', { state: { userId: data.user_id }, replace: true });
+        navigate('/verify-otp', { 
+          state: { 
+            userId: data.user_id,
+            email: formData.email,
+            otp: data.otp  // Pass OTP for display
+          }, 
+          replace: true 
+        });
       } else {
         login(data.user, data.access_token);
         navigate('/dashboard', { replace: true });

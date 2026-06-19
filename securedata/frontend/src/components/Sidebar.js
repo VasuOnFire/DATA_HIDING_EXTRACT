@@ -23,7 +23,11 @@ import {
   Settings as SettingsIcon,
   People as PeopleIcon,
   Speed as SpeedIcon,
-  Logout as LogoutIcon
+  Logout as LogoutIcon,
+  QrCode2 as QRIcon,
+  QrCodeScanner as QRScannerIcon,
+  QrCode as QRCodeIcon,
+  Folder as FolderIcon
 } from '@mui/icons-material';
 
 const DRAWER_WIDTH = 280;
@@ -41,8 +45,12 @@ const menuItems = [
   { text: 'Dashboard', icon: DashboardIcon, path: '/dashboard' },
   { text: 'Messaging', icon: MessageIcon, path: '/messaging' },
   { text: 'Connections', icon: PeopleIcon, path: '/connections' },
+  { text: 'Secure Storage', icon: FolderIcon, path: '/secure-storage' },
   { text: 'Hide Data', icon: SecurityIcon, path: '/hide-data' },
   { text: 'Extract Data', icon: SearchIcon, path: '/extract-data' },
+  { text: 'Hide QR Data', icon: QRIcon, path: '/hide-qr' },
+  { text: 'Extract QR Data', icon: QRScannerIcon, path: '/extract-qr' },
+  { text: 'QR History', icon: QRCodeIcon, path: '/qr-history' },
   { text: 'Performance', icon: SpeedIcon, path: '/performance' },
   { text: 'Login History', icon: HistoryIcon, path: '/login-history' },
   { text: 'Settings', icon: SettingsIcon, path: '/settings' },

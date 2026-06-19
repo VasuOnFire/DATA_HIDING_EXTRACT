@@ -136,9 +136,74 @@ export const stegoAPI = {
   },
 };
 
+// QR Code API
+export const qrAPI = {
+  generateQR: (secretMessage, password) => {
+    const formData = new FormData();
+    formData.append('secret_message', secretMessage);
+    formData.append('password', password);
+    return api.post('/qr/generate', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+  extractFromQR: (file, password) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('password', password);
+    return api.post('/qr/extract', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+  extractFromData: (qrData, password) => 
+    api.post('/qr/extract-from-data', { qr_data: qrData, password }),
+  getQRHistory: () => api.get('/qr/history'),
+  downloadQR: (qrId) => api.get(`/qr/download/${qrId}`, { responseType: 'blob' }),
+};
+
 // Performance API
 export const performanceAPI = {
   getEncryptionMetrics: () => api.get('/performance/encryption'),
+};
+
+// Secure Storage API
+export const storageAPI = {
+  // Folder operations
+  getFolders: () => api.get('/storage/folders'),
+  createFolder: (folderName, isLocked = false, folderPassword = null) => 
+    api.post('/storage/folders', null, { 
+      params: { folder_name: folderName, is_locked: isLocked, folder_password: folderPassword } 
+    }),
+  updateFolder: (folderId, folderName = null, isLocked = null, folderPassword = null) => 
+    api.put(`/storage/folders/${folderId}`, null, { 
+      params: { folder_name: folderName, is_locked: isLocked, folder_password: folderPassword } 
+    }),
+  deleteFolder: (folderId) => api.delete(`/storage/folders/${folderId}`),
+  unlockFolder: (folderId, folderPassword) => 
+    api.post(`/storage/folders/${folderId}/unlock`, null, { params: { folder_password: folderPassword } }),
+  
+  // File operations
+  uploadFile: (file, folderId) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('folder_id', folderId);
+    return api.post('/storage/files/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+  getFolderFiles: (folderId) => api.get(`/storage/folders/${folderId}/files`),
+  downloadFile: (fileId, encryptionKey) => 
+    api.get(`/storage/files/${fileId}/download`, { 
+      params: { encryption_key: encryptionKey },
+      responseType: 'blob'
+    }),
+  previewFile: (fileId, encryptionKey) =>
+    api.get(`/storage/files/${fileId}/preview`, {
+      params: { encryption_key: encryptionKey },
+      responseType: 'blob'
+    }),
+  shareFile: (fileId) => api.post(`/storage/files/${fileId}/share`),
+  deleteFile: (fileId) => api.delete(`/storage/files/${fileId}`),
+  searchFiles: (query) => api.get('/storage/files/search', { params: { query } }),
 };
 
 // Health Check

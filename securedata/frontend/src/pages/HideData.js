@@ -17,7 +17,8 @@ import {
   Paper,
   Chip,
   IconButton,
-  Tooltip
+  Tooltip,
+  InputAdornment
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
@@ -27,7 +28,9 @@ import {
   Download as DownloadIcon,
   Image as ImageIcon,
   Audiotrack as AudioIcon,
-  Videocam as VideoIcon
+  Videocam as VideoIcon,
+  Visibility as VisibilityIcon,
+  VisibilityOff as VisibilityOffIcon
 } from '@mui/icons-material';
 import { stegoAPI } from '../api';
 
@@ -38,6 +41,7 @@ const HideData = () => {
   const [file, setFile] = useState(null);
   const [secretText, setSecretText] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState('nature');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -245,13 +249,26 @@ const HideData = () => {
             {/* Password Input */}
             <TextField
               fullWidth
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               label="Password Key"
               placeholder="Enter a strong password for encryption"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               sx={{ mb: 3 }}
               helperText="This password will be required to extract the data later"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                      size="small"
+                    >
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
 
             {/* Action Button */}

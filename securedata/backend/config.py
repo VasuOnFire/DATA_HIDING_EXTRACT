@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     PBKDF2_ITERATIONS: int = 100000
     
     # CORS - comma-separated string parsed to list
-    ALLOWED_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
+    ALLOWED_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000,https://noncruciformly-unportrayed-blaine.ngrok-free.dev"
     
     # Email SMTP Settings
     SMTP_HOST: str = "smtp.gmail.com"
