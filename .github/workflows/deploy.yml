@@ -1,4 +1,4 @@
-name: Deploy Frontend to GitHub Pages
+name: Deploy Full-Stack Application
 
 on:
   push:
@@ -7,34 +7,27 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: securedata/frontend/package-lock.json
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
-    - name: Install dependencies
-      working-directory: ./securedata/frontend
-      run: npm ci
+    - name: Build and test backend
+      run: |
+        cd securedata/backend
+        docker build -t securedata-backend:test .
 
-    - name: Build frontend
-      working-directory: ./securedata/frontend
-      run: npm run build
-      env:
-        CI: false
-        REACT_APP_API_URL: https://your-backend-url.com
+    - name: Build and test frontend
+      run: |
+        cd securedata/frontend
+        docker build -t securedata-frontend:test .
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./securedata/frontend/build
-        force_orphan: true
+    - name: Build docker-compose
+      run: |
+        cd securedata
+        docker-compose build
