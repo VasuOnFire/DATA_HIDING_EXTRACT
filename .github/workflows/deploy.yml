@@ -1,0 +1,40 @@
+name: Deploy Frontend to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: securedata/frontend/package-lock.json
+
+    - name: Install dependencies
+      working-directory: ./securedata/frontend
+      run: npm ci
+
+    - name: Build frontend
+      working-directory: ./securedata/frontend
+      run: npm run build
+      env:
+        CI: false
+        REACT_APP_API_URL: https://your-backend-url.com
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./securedata/frontend/build
+        force_orphan: true
